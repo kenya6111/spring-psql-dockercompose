@@ -17,6 +17,7 @@ services:
     volumes:
       - db-storage:/var/lib/postgresql/data #こっちはボリューム
       - ./db/initdb:/docker-entrypoint-initdb.d #こっちはバインドマウント DBが起動した時に起動されるもの
+                                                # /docker-entrypoint-initdb.dのディレクトリに置くと勝手に起動時に実行される
 
 volumes:
   db-storage:
