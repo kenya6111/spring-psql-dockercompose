@@ -1,0 +1,22 @@
+services:
+  api:
+    build: ./api #docker buildに相当（docker image のビルド）
+    ports:
+      - 8080:8080
+    depends_on: #サービス間の依存関係を設定できる。これだとdbに依存してるのでdbコンテナが起動してからapiコンテナが起動する順番になる
+      - db
+
+  db:
+    image: postgres:15
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=mypassword
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=appdb
+    volumes:
+      - db-storage:/var/lib/postgresql/data #こっちはボリューム
+      - ./db/initdb:/docker-entrypoint-initdb.d #こっちはバインドマウント DBが起動した時に起動されるもの
+
+volumes:
+  db-storage:
